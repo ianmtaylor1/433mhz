@@ -1,0 +1,5 @@
+*.o
+experiments/*
+experiments
+tests/*.o
+tests/txtest
