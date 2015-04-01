@@ -118,21 +118,21 @@ Transmission RFTools::protocol2(std::string code, unsigned int pulselength, int 
    repeated nrepeat times with a Sync bit after each time.
 */
 Transmission RFTools::codewordA(std::string group, int channelcode, bool status,
-                       unsigned int pulselength, int nrepeat=10)
+                       unsigned int pulselength, int nrepeat/*=10*/)
 {
     //stubbed
     return Transmission();
 }
 
 Transmission RFTools::codewordB(int addresscode, int channelcode, bool status, 
-                       unsigned int pulselength, int nrepeat=10)
+                       unsigned int pulselength, int nrepeat/*=10*/)
 {
     //stubbed
     return Transmission();
 }
 
 Transmission RFTools::codewordC(char family, int group, int device, bool status,
-                       unsigned int pulselength, int nrepeat=10)
+                       unsigned int pulselength, int nrepeat/*=10*/)
 {
     //stubbed
     return Transmission();
