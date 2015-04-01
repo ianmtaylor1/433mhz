@@ -41,8 +41,10 @@ class TXProtoException : public std::exception
    The code is sent code is sent as a string of bits bitlength long, and
    repeated nrepeat times with a Sync bit after each time.
 */
-Transmission protocol1(unsigned long long code, int bitlength, unsigned int pulselength, int nrepeat=10);
-Transmission protocol1(std::string code, unsigned int pulselength, int nrepeat=10);
+Transmission protocol1(unsigned long long code, int bitlength, 
+                       unsigned int pulselength, int nrepeat=10);
+Transmission protocol1(std::string code, 
+                       unsigned int pulselength, int nrepeat=10);
 
 /* Protocol based on protocol 2 from the ninjablocks code.
    Bits are translated to pulses as follows (H = TX on, L = TX off)
@@ -53,10 +55,30 @@ Transmission protocol1(std::string code, unsigned int pulselength, int nrepeat=1
    The code is sent code is sent as a string of bits bitlength long, and
    repeated nrepeat times with a Sync bit after each time.
 */
-Transmission protocol2(unsigned long long code, int bitlength, unsigned int pulselength, int nrepeat=10);
-Transmission protocol2(std::string code, unsigned int pulselength, int nrepeat=10);
+Transmission protocol2(unsigned long long code, int bitlength, 
+                       unsigned int pulselength, int nrepeat=10);
+Transmission protocol2(std::string code, 
+                       unsigned int pulselength, int nrepeat=10);
 
-Transmission tristate(std::string code, unsigned int pulselength, int nrepeat=10);
+/* Protocols that work with "tristate" transmissions. The basis of each code
+   is three characters: 0, 1, and F.
+   0 = HLLLHLLL
+   1 = HHHLHHHL
+   F = HLLLHHHL
+   Sync = HLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+   Each pulse (either H or L) is pulselength microseconds long.
+   The code is sent as a string of bits bitlength long, and
+   repeated nrepeat times with a Sync bit after each time.
+*/
+Transmission codewordA(std::string group, int channelcode, bool status, 
+                       unsigned int pulselength, int nrepeat=10);
+Transmission codewordB(int addresscode, int channelcode, bool status, 
+                       unsigned int pulselength, int nrepeat=10);
+Transmission codewordC(char family, int group, int device, bool status, 
+                       unsigned int pulselength, int nrepeat=10);
+Transmission tristate(std::string code, 
+                      unsigned int pulselength, int nrepeat=10);
+
 
 };
 
