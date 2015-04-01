@@ -3,10 +3,19 @@
 
 #include <wiringPi.h>
 #include <vector>
+#include <exception>
 
 #include "transmission.h"
 
 namespace RFTools {
+
+class TXSetupException : public std::exception {
+  public:
+    TXSetupException() : exception() {};
+    virtual const char *what() {
+        return "wiringPi is not set up. Please call a wiringPi setup function";
+    }
+};
 
 /* Class that is a transmitter for a simple OOK RF chip on the Raspberry Pi 
  * This class works on Raw timings: i.e. toggles the transmitter, waits
