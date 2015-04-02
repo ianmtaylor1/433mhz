@@ -15,9 +15,36 @@ struct Signal {
     Signal(bool state, unsigned int duration) : 
         state(state), duration(duration)
         {};
+    Signal(const Signal& other) : 
+        state(other.state), duration(other.duration)
+        {};
+
+    Signal& operator=(const Signal& other)
+    {
+        if (this != &other) {
+            this->state = other.state;
+            this->duration = other.duration;
+        }
+        return *this;
+    }
+    /* Multiplication operators allow scaling by integers.
+       Very handy for making all signals in a transmission multiples of a
+       given pulselength */
+    Signal& operator*=(unsigned int mult)
+    {
+        this->duration *= mult;
+        return *this;
+    }
+    Signal operator*(unsigned int mult) const
+    {
+        return Signal(this->state, this->duration*mult);
+    }
+
     bool state;
     unsigned int duration;
 };
+/* Allow multiplication with operands reversed */
+Signal operator*(unsigned int mult, const Signal& s);
 
 /* A transmission is represented as a vector of Signals */
 typedef std::vector<Signal> Transmission;
