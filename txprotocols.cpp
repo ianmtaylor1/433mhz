@@ -1,11 +1,34 @@
 #include <vector>
 #include <bitset>
 #include <string>
+#include <unordered_map>
+#include <stdexcept>
 #include "txprotocols.h"
 #include "transmission.h"
 
 using namespace RFTools;
 
+/* Type that defines different bits for different transmissions.
+   Allows us to combine a lot of code */
+typedef std::unordered_map<char, Transmission> TXBitMap;
+
+/* Functions to construct/return the protocolmap for the different protocols.
+   Since it's difficult/impossible to construct complex classes as global
+   variables, we'll use a function with a static variable contained. */
+const TXBitMap& protocol1_map();
+const TXBitMap& protocol2_map();
+const TXBitMap& tristate_map();
+
+/* generic_create
+   Creates a transmission based on a raw string code and a map translating
+   that code into pulses. All pulses are multiplied by pulselength.
+   Note that this function does not repeat or add sync bits. All of that
+   should be taken care of by the calling function. This function's sole 
+   sole purpose is to be a generic way to use the TXBitMaps for handling
+   different protocols.
+ */
+Transmission generic_create(std::string code, unsigned int pulselength, 
+                            const TXBitMap& proto_map);
 
 /* Protocol based on protocol 1 from the ninjablocks code.
    Bits are translated to pulses as follows (H = TX on, L = TX off)
@@ -172,4 +195,108 @@ Transmission RFTools::tristate(std::string code, unsigned int pulselength, int n
         tx.push_back(Signal(false,31*pulselength));
     }
     return tx;
+}
+
+/********************** FUNCTIONS NOT IN HEADER **************************
+ ****************** FOR INTERNAL USE IN THE MODULE ***********************/
+
+Transmission generic_create(std::string code, unsigned int pulselength, 
+                            const TXBitMap& proto_map)
+{
+    Transmission final;
+    //go through the code and append to the transmission
+    for (unsigned int b=0; b<code.length(); b++) {\
+        //could throw exception!
+        Transmission to_append;
+        try {
+            to_append = proto_map.at(code[b]);
+        } catch (const std::out_of_range& oor) {
+            throw TXProtoException("Unknown character in code string.");
+        }
+        for (unsigned int x=0; x<to_append.size(); x++) {
+            // uses the multiplication operator of RFTools::Signal
+            final.push_back(to_append[x]*pulselength);
+        }
+    }
+    return final;
+}
+
+
+const TXBitMap& protocol1_map()
+{
+    static bool created = false;
+    static TXBitMap map;
+    //if we've already created it, return it
+    if (!created) {
+        Transmission zero;
+        Transmission one;
+        Transmission sync;
+        zero.push_back(Signal(true,1));
+        zero.push_back(Signal(false,3));
+        one.push_back(Signal(true,3));
+        one.push_back(Signal(false,1));
+        sync.push_back(Signal(true,1));
+        sync.push_back(Signal(false,31));
+        map['0'] = zero;
+        map['1'] = one;
+        map['S'] = sync;
+        created = true;
+    }
+    return map;
+}
+
+const TXBitMap& protocol2_map()
+{
+    static bool created = false;
+    static TXBitMap map;
+    //if we've already created it, return it
+    if (!created) {
+        Transmission zero;
+        Transmission one;
+        Transmission sync;
+        zero.push_back(Signal(true,1));
+        zero.push_back(Signal(false,2));
+        one.push_back(Signal(true,2));
+        one.push_back(Signal(false,1));
+        sync.push_back(Signal(true,1));
+        sync.push_back(Signal(false,10));
+        map['0'] = zero;
+        map['1'] = one;
+        map['S'] = sync;
+        created = true;
+    }
+    return map;
+}
+
+const TXBitMap& tristate_map()
+{
+    static bool created = false;
+    static TXBitMap map;
+    //if we've already created it, return it
+    if (!created) {
+        Transmission zero;
+        Transmission one;
+        Transmission f;
+        Transmission sync;
+        zero.push_back(Signal(true,1));
+        zero.push_back(Signal(false,3));
+        zero.push_back(Signal(true,1));
+        zero.push_back(Signal(false,3));
+        one.push_back(Signal(true,3));
+        one.push_back(Signal(false,1));
+        one.push_back(Signal(true,3));
+        one.push_back(Signal(false,1));
+        f.push_back(Signal(true,1));
+        f.push_back(Signal(false,3));
+        f.push_back(Signal(true,3));
+        f.push_back(Signal(false,1));
+        sync.push_back(Signal(true,1));
+        sync.push_back(Signal(false,31));
+        map['0'] = zero;
+        map['1'] = one;
+        map['S'] = sync;
+        map['F'] = f;
+        created = true;
+    }
+    return map;
 }
