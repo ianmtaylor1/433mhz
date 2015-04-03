@@ -116,8 +116,24 @@ Transmission RFTools::codewordA(std::string group, int channelcode, bool status,
 Transmission RFTools::codewordB(int addresscode, int channelcode, bool status, 
                        unsigned int pulselength, int nrepeat/*=10*/)
 {
-    //stubbed
-    return Transmission();
+    std::string codeword ("");
+    const char* codes[5] = {"", "0FFF", "F0FF", "FF0F", "FFF0"};
+    if (addresscode < 1 || addresscode > 4) {
+        throw TXProtoException("Invalid address code.");
+    }
+    if (channelcode < 1 || channelcode > 4) {
+        throw TXProtoException("Invalid channel code.");
+    }
+    //construct the code word
+    codeword += codes[addresscode];
+    codeword += codes[channelcode];
+    codeword += "FFF";
+    if (status==true) {
+        codeword += 'F';
+    } else {
+        codeword += '0';
+    }
+    return tristate(codeword, pulselength, nrepeat);
 }
 
 Transmission RFTools::codewordC(char family, int group, int device, bool status,
