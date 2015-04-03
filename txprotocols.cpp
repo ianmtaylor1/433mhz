@@ -54,29 +54,12 @@ Transmission RFTools::protocol1(unsigned long long code, int bitlength, unsigned
 
 Transmission RFTools::protocol1(std::string code, unsigned int pulselength, int nrepeat/*=10*/)
 {
-    Transmission tx;
-    Transmission codevec;
-    //create vector based on code
-    for (unsigned int b=0; b<code.length(); b++) {
-        if (code[b]=='1') {
-            codevec.push_back(Signal(true,3*pulselength));
-            codevec.push_back(Signal(false,pulselength));
-        } else if (code[b]=='0') {
-            codevec.push_back(Signal(true,pulselength));
-            codevec.push_back(Signal(false,3*pulselength));
-        } else {
-            throw TXProtoException("Unknown character in code string.");
-        }
-    }
+    std::string totalcode("");
     //repeat that vector nrepeat times
     for (int i=0; i<nrepeat; i++) {
-        //send code
-        tx.insert(tx.end(),codevec.begin(),codevec.end());
-        //add sync
-        tx.push_back(Signal(true,pulselength));
-        tx.push_back(Signal(false,31*pulselength));
+        totalcode += code + 'S';
     }
-    return tx;
+    return generic_create(totalcode,pulselength,protocol1_map());
 }
 
 
@@ -104,29 +87,12 @@ Transmission RFTools::protocol2(unsigned long long code, int bitlength, unsigned
 
 Transmission RFTools::protocol2(std::string code, unsigned int pulselength, int nrepeat/*=10*/)
 {
-    Transmission tx;
-    Transmission codevec;
-    //create vector based on code
-    for (unsigned int b=0; b<code.length(); b++) {
-        if (code[b]=='1') {
-            codevec.push_back(Signal(true,2*pulselength));
-            codevec.push_back(Signal(false,pulselength));
-        } else if (code[b]=='0') {
-            codevec.push_back(Signal(true,pulselength));
-            codevec.push_back(Signal(false,2*pulselength));
-        } else {
-            throw TXProtoException("Unknown character in code string.");
-        }
-    }
+    std::string totalcode("");
     //repeat that vector nrepeat times
     for (int i=0; i<nrepeat; i++) {
-        //send code
-        tx.insert(tx.end(),codevec.begin(),codevec.end());
-        //add sync
-        tx.push_back(Signal(true,pulselength));
-        tx.push_back(Signal(false,10*pulselength));
+        totalcode += code + 'S';
     }
-    return tx;
+    return generic_create(totalcode,pulselength,protocol2_map());
 }
 
 
@@ -163,38 +129,12 @@ Transmission RFTools::codewordC(char family, int group, int device, bool status,
 
 Transmission RFTools::tristate(std::string code, unsigned int pulselength, int nrepeat/*=10*/)
 {
-    Transmission tx;
-    Transmission codevec;
-    //create vector based on code
-    for (unsigned int b=0; b<code.length(); b++) {
-        if (code[b]=='1') {
-            codevec.push_back(Signal(true,3*pulselength));
-            codevec.push_back(Signal(false,pulselength));
-            codevec.push_back(Signal(true,3*pulselength));
-            codevec.push_back(Signal(false,pulselength));
-        } else if (code[b]=='0') {
-            codevec.push_back(Signal(true,pulselength));
-            codevec.push_back(Signal(false,3*pulselength));
-            codevec.push_back(Signal(true,pulselength));
-            codevec.push_back(Signal(false,3*pulselength));
-        } else if (code[b]=='F') {
-            codevec.push_back(Signal(true,pulselength));
-            codevec.push_back(Signal(false,3*pulselength));
-            codevec.push_back(Signal(true,3*pulselength));
-            codevec.push_back(Signal(false,pulselength));
-        } else {
-            throw TXProtoException("Unknown character in code string.");
-        }
-    }
+    std::string totalcode("");
     //repeat that vector nrepeat times
     for (int i=0; i<nrepeat; i++) {
-        //send code
-        tx.insert(tx.end(),codevec.begin(),codevec.end());
-        //add sync
-        tx.push_back(Signal(true,pulselength));
-        tx.push_back(Signal(false,31*pulselength));
+        totalcode += code + 'S';
     }
-    return tx;
+    return generic_create(totalcode,pulselength,tristate_map());
 }
 
 /********************** FUNCTIONS NOT IN HEADER **************************
