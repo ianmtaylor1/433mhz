@@ -109,8 +109,30 @@ Transmission RFTools::protocol2(std::string code, unsigned int pulselength, int 
 Transmission RFTools::codewordA(std::string group, int channelcode, bool status,
                        unsigned int pulselength, int nrepeat/*=10*/)
 {
-    //stubbed
-    return Transmission();
+    std::string codeword ("");
+    const char* codes[6] = {"", "0FFFF", "F0FFF", "FF0FF", "FFF0F", "FFFF0"};
+    if (group.length() != 5) {
+        throw TXProtoException("Invalid group string: not correct length.");
+    }
+    if (channelcode < 1 || channelcode > 5) {
+        throw TXProtoException("Invalid channel code.");
+    }
+    for (int i=0; i<5; i++) {
+        if (group[i]=='0') {
+            codeword += 'F';
+        } else if (group[i]=='1') {
+            codeword += '0';
+        } else {
+            throw TXProtoException("Bad character in group string.");
+        }
+    }
+    codeword += codes[channelcode];
+    if (status==true) {
+        codeword += "0F";
+    } else {
+        codeword += "F0";
+    }
+    return tristate(codeword, pulselength, nrepeat);
 }
 
 Transmission RFTools::codewordB(int addresscode, int channelcode, bool status, 
@@ -139,8 +161,13 @@ Transmission RFTools::codewordB(int addresscode, int channelcode, bool status,
 Transmission RFTools::codewordC(char family, int group, int device, bool status,
                        unsigned int pulselength, int nrepeat/*=10*/)
 {
-    //stubbed
-    return Transmission();
+    std::string codeword ("");
+    (void) family;
+    (void) group;
+    (void) device;
+    (void) status;
+    // STUBBED
+    return tristate(codeword, pulselength, nrepeat);
 }
 
 Transmission RFTools::tristate(std::string code, unsigned int pulselength, int nrepeat/*=10*/)
