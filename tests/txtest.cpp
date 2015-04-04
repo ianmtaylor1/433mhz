@@ -22,8 +22,10 @@ int main(int argc, char **argv)
     
     Transmission test_on  = tristate("0F0FFFFF0001",186);
     Transmission test_off = tristate("0F0FFFFF0010",186);
-    //std::cout << on.size() << "\n";
-    //std::cout << off.size() << "\n";
+    
+    //don't need these
+    (void) argc;
+    (void) argv;
     
     wiringPiSetup();
     

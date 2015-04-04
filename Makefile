@@ -54,7 +54,7 @@ lib: 433mhz.a
 
 bin: codesend
 
-tests: $(TESTDIR)/txtest
+test: $(TESTDIR)/txtest
 
 clean:
 	-rm *.o
