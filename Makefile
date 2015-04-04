@@ -20,7 +20,7 @@ codesend: codesend.o 433mhz.a
 
 # Tests
 
-$(TESTDIR)/txtest: $(TESTDIR)/txtest.o transmitter.o transmission.o txprotocols.o
+$(TESTDIR)/txtest: $(TESTDIR)/txtest.o 433mhz.a
 	$(CXX) -o $@ $^ $(LFLAGS)
 
 # Object files

@@ -1,8 +1,6 @@
 /* Tests the transmitter code to send codes for one of my outlets. */
 
-#include "transmission.h"
-#include "transmitter.h"
-#include "txprotocols.h"
+#include "433mhz.h"
 #include <unistd.h>
 #include <iostream>
 #include <wiringPi.h>
