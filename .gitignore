@@ -1,5 +1,7 @@
 *.o
+*.a
 experiments/*
 experiments
 tests/*.o
 tests/txtest
+codesend
