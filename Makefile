@@ -55,8 +55,8 @@ bin: codesend
 tests: $(TESTDIR)/txtest
 
 clean:
-	rm *.o
-	rm *.a
-	rm tests/*.o
-	rm tests/txtest
-	rm codesend
+	-rm *.o
+	-rm *.a
+	-rm tests/*.o
+	-rm tests/txtest
+	-rm codesend
