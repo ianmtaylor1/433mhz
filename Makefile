@@ -6,6 +6,10 @@ CFLAGS = -c -W -Wall -std=c++0x $(DEBUG) $(OPTIMIZATION) $(INCDIRS)
 TESTDIR = tests
 LFLAGS = -lwiringPi
 
+
+all: lib bin test
+
+
 # Executables and libraries ("end products")
 
 codesend: codesend.o 433mhz.a
@@ -45,8 +49,6 @@ transmitter.h: transmission.h
 txprotocols.h: transmission.h
 
 # Dummy targets
-
-all: lib bin test
 
 lib: 433mhz.a
 
