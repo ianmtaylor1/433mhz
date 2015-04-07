@@ -1,7 +1,7 @@
 CXX = g++-4.6
 DEBUG = -g
 OPTIMIZATION = -O1
-INCDIRS = -I . -I ezOptionParser-0.2.2
+INCDIRS = -I .
 CFLAGS = -c -W -Wall -std=c++0x $(DEBUG) $(OPTIMIZATION) $(INCDIRS)
 TESTDIR = tests
 LFLAGS = -lwiringPi
@@ -25,7 +25,7 @@ $(TESTDIR)/txtest: $(TESTDIR)/txtest.o 433mhz.a
 
 # Object files
 
-codesend.o: codesend.cpp 433mhz.h
+codesend.o: codesend.cpp 433mhz.h 
 	$(CXX) $(CFLAGS) -o $@ codesend.cpp
 
 transmitter.o: transmitter.cpp transmitter.h transmission.h
