@@ -1,7 +1,7 @@
 CXX = g++-4.6
 DEBUG = -g
 OPTIMIZATION = -O1
-INCDIRS = -I .
+INCDIRS = -I . -I ezOptionParser-0.2.2
 CFLAGS = -c -W -Wall -std=c++0x $(DEBUG) $(OPTIMIZATION) $(INCDIRS)
 TESTDIR = tests
 LFLAGS = -lwiringPi
