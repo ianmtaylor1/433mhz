@@ -2,7 +2,7 @@ CXX = g++-4.6
 DEBUG = -g
 OPTIMIZATION = -O1
 INCDIRS = -I .
-CFLAGS = -c -W -Wall -std=c++0x $(DEBUG) $(OPTIMIZATION) $(INCDIRS)
+CFLAGS = -c -W -Wall -std=c++0x -fPIC $(DEBUG) $(OPTIMIZATION) $(INCDIRS)
 TESTDIR = tests
 LFLAGS = -lwiringPi
 
