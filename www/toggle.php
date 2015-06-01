@@ -33,7 +33,9 @@ if ($outletLight == "1" && $outletStatus == "on") {
 
 foreach ($rfCodes as $rfCode) {
         shell_exec($rfPath . $rfargs . $rfCode);
-        //sleep(1);
+        if (count($rfCodes)>1) {
+            usleep(250000);
+        }
 }
 
 echo json_encode(array('success' => true));
