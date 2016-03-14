@@ -29,7 +29,13 @@ if ($outletLight == "1" && $outletStatus == "on") {
 } else if ($outletLight == "6" && $outletStatus == "off") {
     $rfCodes = array('0F0FFFFF0110', '0F0FFFFF1010', '0F0FFFF10010', '0F0FFF1F0010', '0F0FF1FF0010');
 }
-
+/* Non-remote codes */
+else if ($outletLight == "10" && $outletStatus == "on") {
+    $rfCodes = array('0F0FFFFF0001')
+}
+else if ($outletLight == "10" && $outletStatus == "off") {
+    $rfCodes = array('0F0FFFFF0010')
+}
 
 foreach ($rfCodes as $rfCode) {
         shell_exec($rfPath . $rfargs . $rfCode);
