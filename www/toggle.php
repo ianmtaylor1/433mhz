@@ -31,10 +31,9 @@ if ($outletLight == "1" && $outletStatus == "on") {
 }
 /* Non-remote codes */
 else if ($outletLight == "10" && $outletStatus == "on") {
-    $rfCodes = array('0F0FFFFF0001')
-}
-else if ($outletLight == "10" && $outletStatus == "off") {
-    $rfCodes = array('0F0FFFFF0010')
+    $rfCodes = array('0F0FFFFF0001');
+} else if ($outletLight == "10" && $outletStatus == "off") {
+    $rfCodes = array('0F0FFFFF0010');
 }
 
 foreach ($rfCodes as $rfCode) {
