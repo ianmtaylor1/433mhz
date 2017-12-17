@@ -1,6 +1,6 @@
 <?php
 $rfPath = '/var/www/bin/codesend ';
-$rfargs = '-p 0 -r 10 -t tristate -l 186 ';
+$rfargs = '-p 0 -r 15 -t tristate -l 186 ';
 $outletLight = $_GET['outletId'];
 $outletStatus = $_GET['outletStatus'];
 
