@@ -56,6 +56,14 @@ bin: codesend
 
 test: $(TESTDIR)/txtest
 
+install: codesend
+	mkdir -p /var/www/html
+	mkdir -p /var/www/bin
+	cp www/* /var/www/html/
+	cp codesend /var/www/bin/
+	chown root:www-data /var/www/bin/codesend
+	chmod u=rwxs,g=rx,o= /var/www/bin/codesend
+
 clean:
 	-rm *.o
 	-rm *.a
