@@ -12,7 +12,6 @@ Tested Environments:
 * Raspbian on Raspberry Pi model B rev 2
 
 To Install:
-* Copy www directory contents into /var/www/
-* Copy codesend executable into /var/www/bin/
-* Configure apache to serve that folder. (Good luck)
-* Note: If installing somewhere other than /var/www/ be sure to change the path at the top of www/toggle.php to reflect the actual location.
+* Run 'make all'
+* Run 'sudo make install'
+* Note: Tested on Debian stretch, apache 2.4.25-3, php 1:7.0. Everything *should* just work.
