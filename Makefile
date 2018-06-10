@@ -1,4 +1,4 @@
-CXX = g++-4.6
+CXX = g++
 DEBUG = -g
 OPTIMIZATION = -O1
 INCDIRS = -I .
